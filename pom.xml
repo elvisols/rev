@@ -11,6 +11,7 @@
     <properties>
         <db.url>jdbc:h2:~/revdb</db.url>
         <db.username>sa</db.username>
+        <db.password></db.password>
     </properties>
 
     <dependencies>
@@ -63,6 +64,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -121,12 +128,35 @@
                             <deprecationOnUnknownTypes>false</deprecationOnUnknownTypes>
                         </generate>
                         <target>
-                            <packageName>com.bank.dao.gen</packageName>
+                            <packageName>com.bank.rev.dao.gen</packageName>
                             <directory>src/main/java/</directory>
                         </target>
                     </generator>
                 </configuration>
             </plugin>
+            <!--<plugin>-->
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<archive>-->
+                        <!--<manifest>-->
+                            <!--&lt;!&ndash;<addClasspath>true</addClasspath>&ndash;&gt;-->
+                            <!--<mainClass>com.bank.rev.App</mainClass>-->
+                        <!--</manifest>-->
+                    <!--</archive>-->
+                    <!--<descriptorRefs>-->
+                        <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                    <!--</descriptorRefs>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>make-assembly</id>-->
+                        <!--<phase>package</phase> &lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
+                        <!--<goals>-->
+                            <!--<goal>single</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 </project>

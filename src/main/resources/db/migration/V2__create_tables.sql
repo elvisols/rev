@@ -1,6 +1,6 @@
 CREATE SEQUENCE rev_db.s_customer_id START WITH 1;
 
-CREATE TABLE rev_db.customers (
+CREATE TABLE rev_db.customer (
   id INT NOT NULL,
   full_name VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE rev_db.customers (
 
 CREATE SEQUENCE rev_db.s_account_id START WITH 1;
 
-CREATE TABLE rev_db.accounts (
+CREATE TABLE rev_db.account (
   id INT NOT NULL,
   customer_id INT NOT NULL,
   account_no CHAR(10) NOT NULL,
@@ -30,10 +30,10 @@ CREATE TABLE rev_db.accounts (
 
 
   CONSTRAINT pk_account PRIMARY KEY (ID),
-  CONSTRAINT fk_account_customer_id FOREIGN KEY (customer_id) REFERENCES rev_db.customers(id)
+  CONSTRAINT fk_account_customer_id FOREIGN KEY (customer_id) REFERENCES rev_db.customer(id)
 );
 
-CREATE TABLE rev_db.transfers (
+CREATE TABLE rev_db.transfer (
   ref VARCHAR(125) NOT NULL,
   txn_amount decimal(11,2) NOT NULL,
   txn_ccy CHAR(3) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE rev_db.transfers (
 
 CREATE SEQUENCE rev_db.s_statement_id START WITH 1;
 
-CREATE TABLE rev_db.statements (
+CREATE TABLE rev_db.statement (
   id INT NOT NULL,
   customer_id INT NOT NULL,
   account_no CHAR(10) NOT NULL,
@@ -61,13 +61,5 @@ CREATE TABLE rev_db.statements (
   bank_code CHAR(6),
 
   CONSTRAINT pk_statement PRIMARY KEY (ID),
-  CONSTRAINT fk_statement_customer_id FOREIGN KEY (customer_id) REFERENCES rev_db.customers(id)
+  CONSTRAINT fk_statement_customer_id FOREIGN KEY (customer_id) REFERENCES rev_db.customer(id)
 );
-
--- INSERT INTO flyway_test.author VALUES (next value for flyway_test.s_author_id, 'George', 'Orwell', '1903-06-25', 1903, null);
--- INSERT INTO flyway_test.author VALUES (next value for flyway_test.s_author_id, 'Paulo', 'Coelho', '1947-08-24', 1947, null);
---
--- INSERT INTO flyway_test.book VALUES (1, 1, '1984');
--- INSERT INTO flyway_test.book VALUES (2, 1, 'Animal Farm');
--- INSERT INTO flyway_test.book VALUES (3, 2, 'O Alquimista');
--- INSERT INTO flyway_test.book VALUES (4, 2, 'Brida');

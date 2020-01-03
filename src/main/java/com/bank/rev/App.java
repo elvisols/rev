@@ -5,8 +5,14 @@ import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
 import io.javalin.plugin.metrics.MicrometerPlugin;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -31,15 +37,16 @@ public class App {
         // define routes
         app.routes(() -> {
             path("customers", () -> {
-                get(CustomerController.fetchAllRecords);
-                post(CustomerController.createAccount);
-                path(":accountNo", () -> {
-                    get(CustomerController.fetchOneRecord);
+                get(CustomerController.fetchAllCustomerRecords);
+                post(CustomerController.createCustomer);
+                path(":id", () -> {
+                    get(CustomerController.fetchOneCustomerRecord);
                 });
             });
         });
         // define general exceptions
         app.exception(Exception.class, (e, ctx) -> {
+            e.printStackTrace();
             Map<String,String> error = new HashMap<String,String>();
             error.put("reason", "generic exception caught!");
             ctx.json(error);
