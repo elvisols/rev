@@ -18,6 +18,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -43,7 +44,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Customer extends TableImpl<CustomerRecord> {
 
-    private static final long serialVersionUID = 1629372529;
+    private static final long serialVersionUID = 2062502168;
 
     /**
      * The reference instance of <code>REV_DB.CUSTOMER</code>
@@ -61,7 +62,7 @@ public class Customer extends TableImpl<CustomerRecord> {
     /**
      * The column <code>REV_DB.CUSTOMER.ID</code>.
      */
-    public final TableField<CustomerRecord, Integer> ID = createField(DSL.name("ID"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<CustomerRecord, Integer> ID = createField(DSL.name("ID"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>REV_DB.CUSTOMER.FULL_NAME</code>.
@@ -139,6 +140,11 @@ public class Customer extends TableImpl<CustomerRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.PRIMARY_KEY_5);
+    }
+
+    @Override
+    public Identity<CustomerRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_CUSTOMER;
     }
 
     @Override

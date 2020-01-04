@@ -21,7 +21,7 @@ public class Config {
         return Factory.instance;
     }
 
-    private Connection getConn() throws SQLException {
+    private Connection getConn() {
         System.out.println("creating Conn object...");
         Connection c = null;
         try(InputStream is = App.class.getResourceAsStream(PROPERTY_FILE_NAME)) {
@@ -42,6 +42,6 @@ public class Config {
 
     // thread safe java class loader
     private static class Factory {
-        static Config instance = new Config();
+        static final Config instance = new Config();
     }
 }

@@ -1,7 +1,7 @@
 CREATE SEQUENCE rev_db.s_customer_id START WITH 1;
 
 CREATE TABLE rev_db.customer (
-  id INT NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
   full_name VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
   phone VARCHAR(50) NOT NULL,
