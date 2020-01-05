@@ -5,7 +5,6 @@ import com.bank.rev.dao.gen.tables.pojos.Customer;
 import com.bank.rev.util.Config;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.Configuration;
-import org.slf4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +17,6 @@ public class CustomerService implements ICustomer {
     private CustomerService() {}
 
     public static CustomerService getBean() {
-        log.info("\u001B[32m" + "calling CustomerServiceBean..." +  "\u001B[0m");
         try { config = Config.getInstance().getConfiguration(); } catch (SQLException e) { e.getMessage(); }
         customerDao = Factory.instanceDao;
         return Factory.instanceService;
@@ -26,7 +24,11 @@ public class CustomerService implements ICustomer {
 
     @Override
     public Customer getCustomerById(int id) {
-        return customerDao.fetchOneById(id);
+        Customer c = customerDao.fetchOneById(id);
+        c.setDateOfBirth(null);
+        c.setCreated(null);
+        c.setModified(null);
+        return c;
     }
 
     @Override

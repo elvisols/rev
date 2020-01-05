@@ -14,6 +14,7 @@ public class CustomerController {
             responses = @OpenApiResponse(status = "200", content = @OpenApiContent(from = Customer.class, isArray = true))
     )
     public static final Handler fetchAllCustomerRecords = ctx -> {
+        ctx.status(200);
         ctx.json(customer.getAllCustomers());
     };
 
@@ -26,7 +27,9 @@ public class CustomerController {
             }
     )
     public static final Handler fetchOneCustomerRecord = ctx -> {
-        ctx.json(customer.getCustomerById(ctx.pathParam("id", Integer.class).get()));
+        ctx.status(200);
+        ctx.json(
+                customer.getCustomerById(Integer.valueOf(ctx.pathParam("id"))));
     };
 
     @OpenApi(
@@ -46,6 +49,7 @@ public class CustomerController {
     public static final Handler updateCustomer = ctx -> {
         Customer u_customer = ctx.bodyAsClass(Customer.class);
         customer.update(u_customer);
+        ctx.status(200);
         ctx.json("Success! customer updated.");
     };
 

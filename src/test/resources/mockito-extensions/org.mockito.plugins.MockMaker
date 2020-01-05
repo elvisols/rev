@@ -1,0 +1,3 @@
+# enable a different mock creator factory that can create mock objects on final classes: https://github.com/mockito/mockito/pull/648.
+# The one known caveat to enabling this mock factory is that you can no longer mock native methods.
+mock-maker-inline
