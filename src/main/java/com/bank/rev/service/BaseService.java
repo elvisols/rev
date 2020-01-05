@@ -10,8 +10,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class BaseService {
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    final Lock readLock = readWriteLock.readLock();
-    final Lock writeLock = readWriteLock.writeLock();
+    public final Lock readLock = readWriteLock.readLock();
+    public final Lock writeLock = readWriteLock.writeLock();
     protected static Configuration config;
 
     public BaseService() {

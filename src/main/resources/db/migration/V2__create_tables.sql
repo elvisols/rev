@@ -16,7 +16,7 @@ CREATE TABLE rev_db.customer (
 CREATE SEQUENCE rev_db.s_account_id START WITH 1;
 
 CREATE TABLE rev_db.account (
-  id INT NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
   customer_id INT NOT NULL,
   account_no CHAR(10) NOT NULL,
   account_name VARCHAR(50) NOT NULL,
@@ -49,12 +49,11 @@ CREATE TABLE rev_db.transfer (
 CREATE SEQUENCE rev_db.s_statement_id START WITH 1;
 
 CREATE TABLE rev_db.statement (
-  id INT NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
   customer_id INT NOT NULL,
   account_no CHAR(10) NOT NULL,
   ccy CHAR(3) NOT NULL,
   txn_timestamp DATETIME,
-  txn_value_timestamp DATETIME,
   txn_amount decimal(11,2) NOT NULL,
   dr_cr CHAR(1) NOT NULL,
   narration VARCHAR(50) NOT NULL,

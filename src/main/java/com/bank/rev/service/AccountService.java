@@ -2,6 +2,8 @@ package com.bank.rev.service;
 
 import com.bank.rev.dao.gen.tables.daos.AccountDao;
 import com.bank.rev.dao.gen.tables.pojos.Account;
+import com.bank.rev.dao.gen.tables.pojos.Transfer;
+import com.bank.rev.service.util.Chain;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -19,10 +21,8 @@ public class AccountService extends BaseService implements IAccount {
 
     @Override
     public Account getAccountByNo(String acctNo) {
-        readLock.lock();
         List<Account> accts = accountDao.fetchByAccountNo(acctNo);
-        readLock.unlock();
-        return accts.size() > 0 ? accts.get(0) : new Account();
+        return accts.size() > 0 ? accts.get(0) : null;
     }
 
     @Override
