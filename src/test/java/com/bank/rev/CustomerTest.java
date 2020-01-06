@@ -1,16 +1,19 @@
 package com.bank.rev;
 
 import com.bank.rev.controller.CustomerController;
-import com.bank.rev.dao.gen.tables.pojos.Customer;
 import com.bank.rev.service.CustomerService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.javalin.http.Context;
 import org.junit.Test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-
+/**
+ * Todo: Convert app to Kotlin
+ * Testing with Mockito better implemented using Kotlin and 'mockk'
+ */
 public class CustomerTest {
     private CustomerController customerController;
     private CustomerService customerService;
@@ -18,7 +21,6 @@ public class CustomerTest {
 
     public CustomerTest() {
         this.customerService = mock(CustomerService.class);
-//        this.customerController = new CustomerController(this.customerService);
     }
 
     @Test
@@ -30,6 +32,7 @@ public class CustomerTest {
 
     @Test
     public void fetchOneCustomerRecordTest() throws Exception {
+        /*
         Customer c = new Customer();
         c.setId(1);
         c.setFullName("John Doe");
@@ -42,22 +45,16 @@ public class CustomerTest {
         CustomerController.fetchOneCustomerRecord.handle(ctx);
         verify(ctx).status(200);
         // verify(ctx).json(c);
+        */
 
     }
 
     @Test
     public void createCustomerTest() {
-//        Context context = mock(Context.class);
-//        this.teapotRequestHandler.handlePostEarlGreyHot(context);
-//        verify(context).status(200);
     }
 
     @Test
     public void updateCustomerTest() {
-//        Context context = mock(Context.class);
-//        when(this.teapotService.brewEarlGrey(eq(TeapotService.Temperature.COLD))).thenThrow(IllegalArgumentException.class);
-//        this.teapotRequestHandler.handlePostEarlGreyCold(context);
-//        verify(context).status(400);
     }
 
 }
