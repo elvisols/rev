@@ -22,7 +22,6 @@ public class AccountChecker extends BaseService implements Chain {
     }
 
     @Override
-    // todo: Cache @param request
     public void process(Transfer request) throws NotFoundException {
         log.info(">>> checking accounts...");
         readLock.lock();

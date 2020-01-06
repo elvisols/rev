@@ -21,14 +21,18 @@ public class Config {
         return Factory.instance;
     }
 
-    private Connection getConn() {
-        System.out.println("creating Conn object...");
+
+    public Configuration getConfiguration() throws SQLException  {
+        return Factory.instanceConfig;
+    }
+
+    private static Connection getConn() {
+        System.out.println("creating Connection object...");
         Connection c = null;
         try(InputStream is = App.class.getResourceAsStream(PROPERTY_FILE_NAME)) {
             Properties props = new Properties();
             props.load(is);
             c = DriverManager.getConnection(props.getProperty("db.url"), props.getProperty("db.user"), props.getProperty("db.pass"));
-            c.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             return c;
         } catch (SQLException | IOException se) {
             se.printStackTrace();
@@ -36,12 +40,9 @@ public class Config {
         return c;
     }
 
-    public Configuration getConfiguration() throws SQLException  {
-        return new DefaultConfiguration().set(getConn()).set(SQLDialect.H2);
-    }
-
     // thread safe java class loader
     private static class Factory {
         static final Config instance = new Config();
+        static Configuration instanceConfig = new DefaultConfiguration().set(getConn()).set(SQLDialect.H2);
     }
 }

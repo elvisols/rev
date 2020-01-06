@@ -5,7 +5,6 @@ import com.bank.rev.controller.CustomerController;
 import com.bank.rev.controller.StatementController;
 import com.bank.rev.controller.TransferController;
 import io.javalin.Javalin;
-import io.javalin.http.InternalServerErrorResponse;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
 import io.javalin.plugin.openapi.ui.ReDocOptions;
@@ -75,14 +74,10 @@ public class App {
             });
         });
 
-        // define general exceptions
+        // catch All exceptions
         app.exception(Exception.class, (e, ctx) -> {
-             e.printStackTrace();
+            e.printStackTrace();
             ctx.result(e.getMessage());
-            // ctx.json(new InternalServerErrorResponse(e.getMessage()));
-            // Map<String,String> error = new HashMap<String,String>();
-            // error.put("reason", "generic exception caught!");
-            // ctx.json(error);
         });
     }
 

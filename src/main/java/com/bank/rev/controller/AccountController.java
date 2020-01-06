@@ -38,7 +38,7 @@ public class AccountController {
             summary = "Account creation",
             description = "create a new account number",
             method = HttpMethod.POST,
-            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Account.class))
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Account.class)) // Todo: replace with AccountDTO
     )
     public static final Handler createAccount = ctx -> {
         Account accountNew = ctx.bodyAsClass(Account.class);

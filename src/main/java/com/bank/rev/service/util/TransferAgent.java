@@ -25,7 +25,7 @@ public class TransferAgent extends BaseService implements Chain {
 
     @Override
     public void process(Transfer request) {
-        // writeLock.lock();
+        writeLock.lock();
         log.info(">>> transferring amount[{}{}] from account[{}] to account[{}]...", request.getTxnAmount(), request.getTxnCcy(), request.getDebitedAccountNo(), request.getCreditedAccountNo());
         DSL.using(config).transaction(configuration -> {
             // stepOne: debit txnAmt from debit account
@@ -118,6 +118,6 @@ public class TransferAgent extends BaseService implements Chain {
 
         });
         log.info(">>> transfer done!");
-        // writeLock.unlock();
+         writeLock.unlock();
     }
 }
