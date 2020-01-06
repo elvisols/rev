@@ -1,56 +1,50 @@
 package com.bank.rev.controller;
 
-import com.bank.rev.dao.gen.tables.pojos.Customer;
-import com.bank.rev.service.CustomerService;
-import com.bank.rev.service.ICustomer;
+import com.bank.rev.dao.gen.tables.pojos.Account;
+import com.bank.rev.service.AccountService;
+import com.bank.rev.service.IAccount;
 import io.javalin.http.Handler;
 import io.javalin.plugin.openapi.annotations.*;
 
 public class AccountController {
 
-    private static final ICustomer customer = CustomerService.getBean();
+    private static final IAccount accountService = AccountService.getBean();
 
     @OpenApi(
-            responses = @OpenApiResponse(status = "200", content = @OpenApiContent(from = Customer.class, isArray = true))
+            summary = "Customer accounts",
+            description = "Fetch all customer accounts",
+            pathParams = @OpenApiParam(name = "custId"),
+            responses = @OpenApiResponse(status = "200", content = @OpenApiContent(from = Account.class, isArray = true))
     )
-    public static final Handler fetchAllCustomerRecords = ctx -> {
+    public static final Handler fetchAllCustomerAccountsRecords = ctx -> {
         ctx.status(200);
-        ctx.json(customer.getAllCustomers());
+        ctx.json(accountService.getAllAccountByCustomer(ctx.pathParam("custId", Integer.class).get()));
     };
 
     @OpenApi(
-            summary = "fetch a customer by id",
-            pathParams = @OpenApiParam(name = "id"),
+            summary = "Account detail",
+            description = "fetch an account detail by accountNo",
+            pathParams = @OpenApiParam(name = "accNo"),
             responses = {
-                    @OpenApiResponse(status = "200", content = @OpenApiContent(from = Customer.class)),
-                    @OpenApiResponse(status = "201", content = @OpenApiContent(from = Customer.class))
+                    @OpenApiResponse(status = "200", content = @OpenApiContent(from = Account.class))
             }
     )
-    public static final Handler fetchOneCustomerRecord = ctx -> {
+    public static final Handler fetchOneAccountRecord = ctx -> {
         ctx.status(200);
-        ctx.json(
-                customer.getCustomerById(Integer.valueOf(ctx.pathParam("id"))));
+        ctx.json(accountService.getAccountByNo(ctx.pathParam("accNo")));
     };
 
     @OpenApi(
+            summary = "Account creation",
+            description = "create a new account number",
             method = HttpMethod.POST,
-            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Customer.class))
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Account.class))
     )
-    public static final Handler createCustomer = ctx -> {
-        Customer customerNew = ctx.bodyAsClass(Customer.class);
-        customer.save(customerNew);
+    public static final Handler createAccount = ctx -> {
+        Account accountNew = ctx.bodyAsClass(Account.class);
+        accountService.save(accountNew);
         ctx.status(201);
-        ctx.json("Success! customer saved.");
-    };
-
-    @OpenApi(
-            method = HttpMethod.PUT
-    )
-    public static final Handler updateCustomer = ctx -> {
-        Customer u_customer = ctx.bodyAsClass(Customer.class);
-        customer.update(u_customer);
-        ctx.status(200);
-        ctx.json("Success! customer updated.");
+        ctx.json("Success! account created.");
     };
 
 }

@@ -9,7 +9,6 @@ import com.bank.rev.service.BaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.impl.DSL;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
@@ -42,7 +41,7 @@ public class TransferAgent extends BaseService implements Chain {
             AccountRecord accountC =
                 DSL.using(configuration)
                     .selectFrom(Account.ACCOUNT)
-                    .where(Account.ACCOUNT.ACCOUNT_NO.eq(request.getDebitedAccountNo()))
+                    .where(Account.ACCOUNT.ACCOUNT_NO.eq(request.getCreditedAccountNo()))
                     .fetchOne();
             accountC.setBalance(accountC.getBalance().add(request.getTxnAmount()));
             accountC.store();

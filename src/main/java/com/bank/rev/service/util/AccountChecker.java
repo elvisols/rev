@@ -13,7 +13,7 @@ public class AccountChecker extends BaseService implements Chain {
     private AccountService accountService;
 
     public AccountChecker() {
-        AccountService.getBean();
+        this.accountService = AccountService.getBean();
     }
 
     @Override

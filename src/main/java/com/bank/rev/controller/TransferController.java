@@ -27,8 +27,7 @@ public class TransferController {
 
     @OpenApi(
             summary = "transfer details",
-            description = "fetch a transfer details",
-            pathParams = @OpenApiParam(name = "id"),
+            description = "fetch transfer details",
             responses = {
                     @OpenApiResponse(status = "200", content = @OpenApiContent(from = Transfer.class, isArray = true))
             }

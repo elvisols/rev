@@ -1,9 +1,11 @@
 package com.bank.rev;
 
+import com.bank.rev.controller.AccountController;
 import com.bank.rev.controller.CustomerController;
+import com.bank.rev.controller.StatementController;
+import com.bank.rev.controller.TransferController;
 import io.javalin.Javalin;
 import io.javalin.http.InternalServerErrorResponse;
-import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
 import io.javalin.plugin.openapi.ui.ReDocOptions;
@@ -20,25 +22,17 @@ public class App {
 
     private App() {
         app = Javalin.create(config -> {
-            config.enableWebjars();
-            config.addStaticFiles("/webjars", Location.EXTERNAL);
-            config.defaultContentType = "application.json";
-            config.requestLogger((ctx, ms) -> {
-                log.info("ctx({}), ms({})", ctx.fullUrl(), ms.longValue());
-            });
             config.registerPlugin(new OpenApiPlugin(getOpenApiOptions()));
         });
     }
 
     private OpenApiOptions getOpenApiOptions() {
-        Info applicationInfo = new Info()
-                .version("1.0")
-                .description("RevApp Documentation");
+        Info applicationInfo = new Info().version("1.0").description("RevApp Documentation");
         return new OpenApiOptions(applicationInfo)
                 .path("/swagger-docs")
                 .activateAnnotationScanningFor("com.bank.rev.controller")
-                .swagger(new SwaggerOptions("/swagger-ui").title("My Swagger Documentation"))
-                .reDoc(new ReDocOptions("/redoc").title("My ReDoc Documentation"));
+                .swagger(new SwaggerOptions("/swagger-ui").title("Rev Swagger Documentation"))
+                .reDoc(new ReDocOptions("/redoc").title("Rev Redoc Documentation"));
     }
 
     private void doJob() {
@@ -47,6 +41,11 @@ public class App {
 
         // define routes
         app.routes(() -> {
+            path("transfers", () -> {
+                get(TransferController.fetchTransferRecord);
+                post(TransferController.doTransfer);
+            });
+
             path("customers", () -> {
                 get(CustomerController.fetchAllCustomerRecords);
                 post(CustomerController.createCustomer);
@@ -55,12 +54,32 @@ public class App {
                     get(CustomerController.fetchOneCustomerRecord);
                 });
             });
+
+            path("accounts", () -> {
+                post(AccountController.createAccount);
+                path(":custId", () -> {
+                    get(AccountController.fetchAllCustomerAccountsRecords);
+                });
+                path("/detail/:accNo", () -> {
+                    get(AccountController.fetchOneAccountRecord);
+                });
+            });
+
+            path("statements", () -> {
+                path(":custId", () -> {
+                    get(StatementController.fetchAllCustomerStatementRecords);
+                });
+                path("/account/:accNo", () -> {
+                    get(StatementController.fetchAllAccountStatementRecords);
+                });
+            });
         });
 
         // define general exceptions
         app.exception(Exception.class, (e, ctx) -> {
-            e.printStackTrace();
-            ctx.json(new InternalServerErrorResponse(e.getMessage()));
+             e.printStackTrace();
+            ctx.result(e.getMessage());
+            // ctx.json(new InternalServerErrorResponse(e.getMessage()));
             // Map<String,String> error = new HashMap<String,String>();
             // error.put("reason", "generic exception caught!");
             // ctx.json(error);

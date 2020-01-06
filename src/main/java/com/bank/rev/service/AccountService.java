@@ -6,6 +6,8 @@ import com.bank.rev.dao.gen.tables.pojos.Transfer;
 import com.bank.rev.service.util.Chain;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +30,7 @@ public class AccountService extends BaseService implements IAccount {
     @Override
     public void save(Account account) {
         writeLock.lock();
+        account.setCreated(new Timestamp(new Date().getTime()));
         accountDao.insert(account);
         writeLock.unlock();
     }

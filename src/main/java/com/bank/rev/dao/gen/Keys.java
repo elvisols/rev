@@ -39,7 +39,9 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<AccountRecord, Integer> IDENTITY_ACCOUNT = Identities0.IDENTITY_ACCOUNT;
     public static final Identity<CustomerRecord, Integer> IDENTITY_CUSTOMER = Identities0.IDENTITY_CUSTOMER;
+    public static final Identity<StatementRecord, Integer> IDENTITY_STATEMENT = Identities0.IDENTITY_STATEMENT;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -62,7 +64,9 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
+        public static Identity<AccountRecord, Integer> IDENTITY_ACCOUNT = Internal.createIdentity(Account.ACCOUNT, Account.ACCOUNT.ID);
         public static Identity<CustomerRecord, Integer> IDENTITY_CUSTOMER = Internal.createIdentity(Customer.CUSTOMER, Customer.CUSTOMER.ID);
+        public static Identity<StatementRecord, Integer> IDENTITY_STATEMENT = Internal.createIdentity(Statement.STATEMENT, Statement.STATEMENT.ID);
     }
 
     private static class UniqueKeys0 {

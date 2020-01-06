@@ -18,10 +18,11 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row10;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -43,7 +44,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Statement extends TableImpl<StatementRecord> {
 
-    private static final long serialVersionUID = -441847808;
+    private static final long serialVersionUID = -1959413080;
 
     /**
      * The reference instance of <code>REV_DB.STATEMENT</code>
@@ -61,7 +62,7 @@ public class Statement extends TableImpl<StatementRecord> {
     /**
      * The column <code>REV_DB.STATEMENT.ID</code>.
      */
-    public final TableField<StatementRecord, Integer> ID = createField(DSL.name("ID"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<StatementRecord, Integer> ID = createField(DSL.name("ID"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>REV_DB.STATEMENT.CUSTOMER_ID</code>.
@@ -82,11 +83,6 @@ public class Statement extends TableImpl<StatementRecord> {
      * The column <code>REV_DB.STATEMENT.TXN_TIMESTAMP</code>.
      */
     public final TableField<StatementRecord, Timestamp> TXN_TIMESTAMP = createField(DSL.name("TXN_TIMESTAMP"), org.jooq.impl.SQLDataType.TIMESTAMP.precision(6), this, "");
-
-    /**
-     * The column <code>REV_DB.STATEMENT.TXN_VALUE_TIMESTAMP</code>.
-     */
-    public final TableField<StatementRecord, Timestamp> TXN_VALUE_TIMESTAMP = createField(DSL.name("TXN_VALUE_TIMESTAMP"), org.jooq.impl.SQLDataType.TIMESTAMP.precision(6), this, "");
 
     /**
      * The column <code>REV_DB.STATEMENT.TXN_AMOUNT</code>.
@@ -152,6 +148,11 @@ public class Statement extends TableImpl<StatementRecord> {
     }
 
     @Override
+    public Identity<StatementRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_STATEMENT;
+    }
+
+    @Override
     public UniqueKey<StatementRecord> getPrimaryKey() {
         return Keys.PK_STATEMENT;
     }
@@ -197,11 +198,11 @@ public class Statement extends TableImpl<StatementRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Integer, Integer, String, String, Timestamp, Timestamp, BigDecimal, String, String, String> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row9<Integer, Integer, String, String, Timestamp, BigDecimal, String, String, String> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

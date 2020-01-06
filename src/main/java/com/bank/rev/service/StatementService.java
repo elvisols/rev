@@ -18,13 +18,6 @@ public class StatementService extends BaseService implements IStatement {
     }
 
     @Override
-    public void save(Statement statement) {
-        writeLock.lock();
-        statementDao.insert(statement);
-        writeLock.unlock();
-    }
-
-    @Override
     public List<Statement> getAllStatementByCustomer(int custId) {
         readLock.lock();
         List<Statement> stmts = statementDao.fetchByCustomerId(custId);

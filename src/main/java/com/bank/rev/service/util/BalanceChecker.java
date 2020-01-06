@@ -16,7 +16,7 @@ public class BalanceChecker extends BaseService implements Chain {
     private AccountService accountService;
 
     public BalanceChecker() {
-        AccountService.getBean();
+        this.accountService = AccountService.getBean();
     }
 
     @Override

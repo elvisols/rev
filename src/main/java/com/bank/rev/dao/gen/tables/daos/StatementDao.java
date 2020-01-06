@@ -127,20 +127,6 @@ public class StatementDao extends DAOImpl<StatementRecord, com.bank.rev.dao.gen.
     }
 
     /**
-     * Fetch records that have <code>TXN_VALUE_TIMESTAMP BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.bank.rev.dao.gen.tables.pojos.Statement> fetchRangeOfTxnValueTimestamp(Timestamp lowerInclusive, Timestamp upperInclusive) {
-        return fetchRange(Statement.STATEMENT.TXN_VALUE_TIMESTAMP, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>TXN_VALUE_TIMESTAMP IN (values)</code>
-     */
-    public List<com.bank.rev.dao.gen.tables.pojos.Statement> fetchByTxnValueTimestamp(Timestamp... values) {
-        return fetch(Statement.STATEMENT.TXN_VALUE_TIMESTAMP, values);
-    }
-
-    /**
      * Fetch records that have <code>TXN_AMOUNT BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.bank.rev.dao.gen.tables.pojos.Statement> fetchRangeOfTxnAmount(BigDecimal lowerInclusive, BigDecimal upperInclusive) {

@@ -24,14 +24,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Statement implements Serializable {
 
-    private static final long serialVersionUID = -1638025017;
+    private static final long serialVersionUID = 952652934;
 
     private Integer    id;
     private Integer    customerId;
     private String     accountNo;
     private String     ccy;
     private Timestamp  txnTimestamp;
-    private Timestamp  txnValueTimestamp;
     private BigDecimal txnAmount;
     private String     drCr;
     private String     narration;
@@ -45,7 +44,6 @@ public class Statement implements Serializable {
         this.accountNo = value.accountNo;
         this.ccy = value.ccy;
         this.txnTimestamp = value.txnTimestamp;
-        this.txnValueTimestamp = value.txnValueTimestamp;
         this.txnAmount = value.txnAmount;
         this.drCr = value.drCr;
         this.narration = value.narration;
@@ -58,7 +56,6 @@ public class Statement implements Serializable {
         String     accountNo,
         String     ccy,
         Timestamp  txnTimestamp,
-        Timestamp  txnValueTimestamp,
         BigDecimal txnAmount,
         String     drCr,
         String     narration,
@@ -69,7 +66,6 @@ public class Statement implements Serializable {
         this.accountNo = accountNo;
         this.ccy = ccy;
         this.txnTimestamp = txnTimestamp;
-        this.txnValueTimestamp = txnValueTimestamp;
         this.txnAmount = txnAmount;
         this.drCr = drCr;
         this.narration = narration;
@@ -116,14 +112,6 @@ public class Statement implements Serializable {
         this.txnTimestamp = txnTimestamp;
     }
 
-    public Timestamp getTxnValueTimestamp() {
-        return this.txnValueTimestamp;
-    }
-
-    public void setTxnValueTimestamp(Timestamp txnValueTimestamp) {
-        this.txnValueTimestamp = txnValueTimestamp;
-    }
-
     public BigDecimal getTxnAmount() {
         return this.txnAmount;
     }
@@ -165,7 +153,6 @@ public class Statement implements Serializable {
         sb.append(", ").append(accountNo);
         sb.append(", ").append(ccy);
         sb.append(", ").append(txnTimestamp);
-        sb.append(", ").append(txnValueTimestamp);
         sb.append(", ").append(txnAmount);
         sb.append(", ").append(drCr);
         sb.append(", ").append(narration);
