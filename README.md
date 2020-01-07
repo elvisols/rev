@@ -1,7 +1,7 @@
 # Getting Started
 
 This is a simple (Java) Javalin application. It is a RESTful API that facilitate money transfers between accounts:
-- The API is invoked during test by different Thread to represent requests from different systems.
+- The API is invoked during test by different Threads to simulate requests from different systems.
 
 
 ##### Application Requirements:
