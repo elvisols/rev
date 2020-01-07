@@ -26,16 +26,23 @@ public class BalanceChecker extends BaseService implements Chain {
 
     @Override
     public void process(Transfer request) throws NotFoundException, BadPayloadException {
-        log.info(">>> checking balance...");
-        readLock.lock();
-        Account acctD = accountService.getAccountByNo(request.getDebitedAccountNo());
+        log.info(">>> thread[{}] checking balance...", Thread.currentThread().getName());
+        Account acctD = null;
+        try {
+            readLock.lock();
+            acctD = accountService.getAccountByNo(request.getDebitedAccountNo());
 
-        if(MathUtils.lessThan(acctD.getBalance(), request.getTxnAmount())) {
+            if(MathUtils.lessThan(acctD.getBalance(), request.getTxnAmount())) {
+                throw new BadPayloadException("Sorry["+Thread.currentThread().getName()+"] you do not have enough balance to transfer.");
+            } else {
+                // pass thread to doTransfer method
+                 nextInChain.process(request);
+            }
+        } catch (BadPayloadException e) {
+            System.out.printf("terminating balance checker...thread[%s] because of balanceAmt[%s] requestAmt[%s]\n", Thread.currentThread().getName(), acctD.getBalance(), request.getTxnAmount());
+            throw e;
+        } finally {
             readLock.unlock();
-            throw new BadPayloadException("Sorry you do not have enough balance to transfer.");
-        } else {
-            readLock.unlock();
-            nextInChain.process(request);
         }
     }
 }

@@ -25,13 +25,22 @@ public class AccountChecker extends BaseService implements Chain {
     public void process(Transfer request) throws NotFoundException {
         log.info(">>> checking accounts...");
         readLock.lock();
-        Account acctC = accountService.getAccountByNo(request.getCreditedAccountNo());
-        Account acctD = accountService.getAccountByNo(request.getDebitedAccountNo());
-        readLock.unlock();
-        if(acctC == null || acctD == null) {
-            throw new NotFoundException("Sorry we could not retrieve your account details.");
-        } else {
-            nextInChain.process(request);
+        Account acctC = null, acctD = null;
+        try{
+            System.out.printf("Thread[%s] checking account \n", Thread.currentThread().getName());
+            acctC = accountService.getAccountByNo(request.getCreditedAccountNo());
+            acctD = accountService.getAccountByNo(request.getDebitedAccountNo());
+            if(acctC == null || acctD == null) {
+                throw new NotFoundException("Sorry["+Thread.currentThread().getName()+"] we could not retrieve your account details.");
+            } else {
+                // check balance
+                nextInChain.process(request);
+            }
+        } catch (NotFoundException nfe) {
+            System.out.printf("terminating account checker...thread[%s] because of accC[%s] accD[%s]\n", Thread.currentThread().getName(), acctC, acctD);
+            throw nfe;
+        } finally {
+            readLock.unlock();
         }
     }
 }

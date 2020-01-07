@@ -22,14 +22,16 @@ public class TransferService extends BaseService implements ITransfer {
 
     @Override
     public void transferFacade(Transfer request) throws NotFoundException {
-        Chain checkAccount = new AccountChecker();
-        Chain checkBalance = new BalanceChecker();
-        Chain doTransfer = new TransferAgent();
+        Chain checkAccount = Factory.checkAccountInstance;
+        Chain checkBalance = Factory.checkBalanceInstance;
+        Chain doTransfer = Factory.doTransferInstance;
 
         checkAccount.setNextChain(checkBalance);
         checkBalance.setNextChain(doTransfer);
 
         checkAccount.process(request);
+        // alternatively: detach the writeLock from the chain
+        // doTransfer.process(request);
     }
 
     @Override
@@ -39,6 +41,9 @@ public class TransferService extends BaseService implements ITransfer {
 
     // thread safe java class loader
     private static class Factory {
+        static final Chain checkBalanceInstance = new BalanceChecker();
+        static final Chain doTransferInstance = new TransferAgent();
+        static final Chain checkAccountInstance = new AccountChecker();
         static final TransferService instanceService = new TransferService();
         static final TransferDao instanceDao = new TransferDao(config);
     }

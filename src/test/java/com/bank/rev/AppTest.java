@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -45,6 +47,9 @@ public class AppTest {
         CountDownLatch countDownLatch = new CountDownLatch(5);
         // get opening balance
         BigDecimal oBalance = DSL.using(Config.getInstance().getConfiguration()).select(sum(Account.ACCOUNT.BALANCE)).from(Account.ACCOUNT).fetchOneInto(BigDecimal.class);
+
+        Instant start = Instant.now();
+
         // perform concurrent transfers between accounts.
         while (countDownLatch.getCount() > 0) {
             countDownLatch.countDown();
@@ -55,6 +60,10 @@ public class AppTest {
                 e.printStackTrace();
             }
         }
+
+        Instant end = Instant.now();
+        Duration timeElapsed = Duration.between(start, end);
+        System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
 
         // get closing balance
         BigDecimal cBalance = DSL.using(Config.getInstance().getConfiguration()).select(sum(Account.ACCOUNT.BALANCE)).from(Account.ACCOUNT).fetchOneInto(BigDecimal.class);
@@ -69,7 +78,7 @@ public class AppTest {
         Runnable transfer1 = () -> {
             while (true) {
                 try {
-                    int randNumber = rand.nextInt(10000);
+                    int randNumber = rand.nextInt(70000);
                     Transfer transfer = new Transfer("tr1", BigDecimal.valueOf(randNumber), "USD", "2222222222", "1111111111", "txnNarration", "abc123", null);
                     doTransfer(transfer);
                     latch.countDown();
@@ -85,7 +94,7 @@ public class AppTest {
         Runnable transfer2 = () -> {
             while (true) {
                 try {
-                    int randNumber = rand.nextInt(10000);
+                    int randNumber = rand.nextInt(70000);
                     Transfer transfer = new Transfer("tr2", BigDecimal.valueOf(randNumber), "USD", "3333333333", "2222222222", "txnNarration", "abc123", null);
                     doTransfer(transfer);
                     latch.countDown();
@@ -101,7 +110,7 @@ public class AppTest {
         Runnable transfer3 = () -> {
             while (true) {
                 try {
-                    int randNumber = rand.nextInt(10000);
+                    int randNumber = rand.nextInt(70000);
                     Transfer transfer = new Transfer("tr3", BigDecimal.valueOf(randNumber), "USD", "4444444444", "3333333333", "txnNarration", "abc123", null);
                     doTransfer(transfer);
                     latch.countDown();
@@ -117,7 +126,7 @@ public class AppTest {
         Runnable transfer4 = () -> {
             while (true) {
                 try {
-                    int randNumber = rand.nextInt(10000);
+                    int randNumber = rand.nextInt(70000);
                     Transfer transfer = new Transfer("tr4", BigDecimal.valueOf(randNumber), "USD", "1111111111", "4444444444", "txnNarration", "abc123", null);
                     doTransfer(transfer);
                     latch.countDown();
