@@ -36,7 +36,7 @@ public class App {
 
     private void doJob() {
         // define port
-        app.start(7001);
+        app.start(7002);
 
         // define routes
         app.routes(() -> {

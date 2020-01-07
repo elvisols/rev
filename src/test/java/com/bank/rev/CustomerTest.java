@@ -49,12 +49,4 @@ public class CustomerTest {
 
     }
 
-    @Test
-    public void createCustomerTest() {
-    }
-
-    @Test
-    public void updateCustomerTest() {
-    }
-
 }
