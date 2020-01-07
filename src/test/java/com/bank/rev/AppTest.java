@@ -152,7 +152,7 @@ public class AppTest {
     }
 
     private void doTransfer(final Transfer transfer) throws IOException {
-        URL url = new URL("http://localhost:7001/transfers");
+        URL url = new URL("http://localhost:7002/transfers");
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
